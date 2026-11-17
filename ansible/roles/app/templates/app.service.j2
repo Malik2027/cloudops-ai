@@ -7,7 +7,7 @@ Wants=network-online.target
 Type=exec
 User={{ app_user }}
 Group={{ app_user }}
-WorkingDirectory={{ app_dir }}/current
+WorkingDirectory={{ app_dir }}/current/backend
 EnvironmentFile={{ app_dir }}/shared/config/.env
 ExecStart={{ app_dir }}/venv/bin/uvicorn app.main:app \
     --host 0.0.0.0 \
@@ -20,7 +20,7 @@ StandardOutput=journal
 StandardError=journal
 SyslogIdentifier={{ app_name }}
 
-Environment=PYTHONPATH={{ app_dir }}/current
+Environment=PYTHONPATH={{ app_dir }}/current/backend
 Environment=ENV={{ app_env }}
 Environment=PORT={{ app_port }}
 

@@ -66,7 +66,7 @@
 
 - name: Install app Python dependencies
   pip:
-    requirements: "{{ app_dir }}/current/requirements.txt"
+    requirements: "{{ app_dir }}/current/backend/requirements.txt"
     virtualenv: "{{ app_dir }}/venv"
   when: app_repo != ""
   become_user: "{{ app_user }}"
