@@ -1,0 +1,11 @@
+---
+app_name: cloudops-hrms
+app_user: cloudops
+app_dir: /opt/cloudops
+app_port: 8000
+app_repo: "https://github.com/Malik2027/cloudops-ai.git"
+app_branch: main
+app_version: latest
+python_version: python3
+uvicorn_workers: 2
+app_env: dev

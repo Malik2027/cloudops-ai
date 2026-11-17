@@ -1,0 +1,100 @@
+---
+- name: Install Python 3 and pip
+  apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+    state: present
+
+- name: Create app system user
+  user:
+    name: "{{ app_user }}"
+    system: yes
+    shell: /sbin/nologin
+    home: "{{ app_dir }}"
+    create_home: yes
+
+- name: Create app directory structure
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0755'
+  loop:
+    - "{{ app_dir }}"
+    - "{{ app_dir }}/releases"
+    - "{{ app_dir }}/shared/logs"
+    - "{{ app_dir }}/shared/config"
+
+- name: Create Python virtualenv
+  command: "{{ python_version }} -m venv {{ app_dir }}/venv"
+  args:
+    creates: "{{ app_dir }}/venv/bin/activate"
+  become_user: "{{ app_user }}"
+
+- name: Install pip base tools
+  pip:
+    name:
+      - pip
+      - setuptools
+      - wheel
+    virtualenv: "{{ app_dir }}/venv"
+    state: latest
+  become_user: "{{ app_user }}"
+
+- name: Clone app repo
+  git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_dir }}/releases/{{ app_version }}"
+    version: "{{ app_branch }}"
+    force: yes
+  when: app_repo != ""
+  become_user: "{{ app_user }}"
+  notify: restart app
+
+- name: Symlink current release
+  file:
+    src: "{{ app_dir }}/releases/{{ app_version }}"
+    dest: "{{ app_dir }}/current"
+    state: link
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+  when: app_repo != ""
+  notify: restart app
+
+- name: Install app Python dependencies
+  pip:
+    requirements: "{{ app_dir }}/current/requirements.txt"
+    virtualenv: "{{ app_dir }}/venv"
+  when: app_repo != ""
+  become_user: "{{ app_user }}"
+  notify: restart app
+
+- name: Deploy app environment config
+  template:
+    src: app.env.j2
+    dest: "{{ app_dir }}/shared/config/.env"
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    mode: '0600'
+  notify: restart app
+
+- name: Deploy systemd service unit
+  template:
+    src: app.service.j2
+    dest: "/etc/systemd/system/{{ app_name }}.service"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart app
+
+- name: Enable app service
+  systemd:
+    name: "{{ app_name }}"
+    enabled: yes
+    state: "{{ 'started' if app_repo != '' else 'stopped' }}"
+    daemon_reload: yes

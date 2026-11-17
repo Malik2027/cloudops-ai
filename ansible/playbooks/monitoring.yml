@@ -1,0 +1,8 @@
+---
+# Install and configure CloudWatch agent only
+# Usage: ansible-playbook playbooks/monitoring.yml -i inventory/dev.ini
+- name: Configure CloudWatch monitoring agent
+  hosts: webservers
+  become: true
+  roles:
+    - monitoring

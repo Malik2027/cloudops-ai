@@ -1,0 +1,18 @@
+# Copy to terraform.tfvars and fill in your values.
+# Never commit terraform.tfvars — it is gitignored.
+# Set AWS credentials via environment variables or AWS_PROFILE:
+#
+#   export AWS_ACCESS_KEY_ID=...
+#   export AWS_SECRET_ACCESS_KEY=...
+#   export AWS_REGION=ap-south-1
+
+aws_region        = "ap-south-1"
+environment       = "dev"
+ami_id            = "ami-0f58b397bc5c1f2e8"   # Ubuntu 22.04 LTS ap-south-1
+instance_type     = "t3.micro"
+key_name          = "HRMS"
+root_volume_size  = 20
+ssh_allowed_cidr  = "YOUR_OFFICE_OR_VPN_CIDR/32"
+certificate_arn   = ""                          # Leave empty for HTTP-only dev
+health_check_path = "/health"
+alert_email       = "your-email@example.com"

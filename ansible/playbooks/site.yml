@@ -1,0 +1,11 @@
+---
+# Master playbook — runs all roles on webservers
+# Usage: ansible-playbook playbooks/site.yml -i inventory/dev.ini
+- name: Configure and deploy all webservers
+  hosts: webservers
+  become: true
+  roles:
+    - common
+    - webserver
+    - app
+    - monitoring

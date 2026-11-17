@@ -1,0 +1,11 @@
+---
+timezone: Asia/Kolkata
+
+common_packages:
+  - curl
+  - vim
+  - unzip
+  - htop
+  - git
+  - fail2ban
+  - ufw

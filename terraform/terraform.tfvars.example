@@ -1,0 +1,11 @@
+# Copy this file to terraform.tfvars and fill in values.
+# AWS credentials are NOT stored here — use environment variables or an AWS profile:
+#
+#   export AWS_ACCESS_KEY_ID=...
+#   export AWS_SECRET_ACCESS_KEY=...
+#   export AWS_REGION=ap-south-1
+#
+# Or configure a named profile:
+#   export AWS_PROFILE=cloudops-dev
+
+aws_region = "ap-south-1"

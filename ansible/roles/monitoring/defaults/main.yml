@@ -1,0 +1,6 @@
+---
+aws_region: ap-south-1
+cloudwatch_metrics_interval: 60
+cloudwatch_log_group_prefix: /cloudops-ai
+app_name: cloudops-hrms
+app_env: dev

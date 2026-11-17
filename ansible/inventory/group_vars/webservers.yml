@@ -1,0 +1,4 @@
+---
+nginx_server_name: _
+nginx_worker_processes: auto
+nginx_worker_connections: 1024

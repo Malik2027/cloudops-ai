@@ -1,0 +1,8 @@
+---
+# Configure nginx only
+# Usage: ansible-playbook playbooks/webserver.yml -i inventory/dev.ini
+- name: Configure nginx webserver
+  hosts: webservers
+  become: true
+  roles:
+    - webserver

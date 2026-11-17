@@ -1,0 +1,9 @@
+---
+# Deploy application code only
+# Usage: ansible-playbook playbooks/deploy.yml -i inventory/dev.ini
+# Usage (specific version): ansible-playbook playbooks/deploy.yml -i inventory/dev.ini -e "app_version=v1.2.3"
+- name: Deploy application
+  hosts: webservers
+  become: true
+  roles:
+    - app
