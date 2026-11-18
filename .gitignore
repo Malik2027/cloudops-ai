@@ -8,6 +8,7 @@ keys/
 
 # Ansible vault secrets (never commit)
 ansible/inventory/group_vars/vault.yml
+ansible/inventory/group_vars/all/vault.yml
 ~/.vault_pass
 
 # Terraform state and secrets
