@@ -1,5 +1,5 @@
 import json
-from app.services.aws_client import get_client
+import boto3
 from app.config import settings
 
 SYSTEM_PROMPT = """You are CloudOps AI, an intelligent assistant for AWS cloud operations.
@@ -9,8 +9,6 @@ If asked to perform an action, describe what you would do and suggest the API en
 
 
 def chat(message: str, context: dict = None) -> tuple[str, int]:
-    bedrock = get_client("bedrock-runtime")
-
     messages = []
     if context:
         messages.append({
@@ -21,7 +19,6 @@ def chat(message: str, context: dict = None) -> tuple[str, int]:
             "role": "assistant",
             "content": "Understood. I have the infrastructure context. How can I help?"
         })
-
     messages.append({"role": "user", "content": message})
 
     body = {
@@ -31,11 +28,12 @@ def chat(message: str, context: dict = None) -> tuple[str, int]:
         "messages": messages,
     }
 
-    resp = bedrock.invoke_model(
+    client = boto3.client("bedrock-runtime", region_name=settings.AWS_REGION)
+    resp = client.invoke_model(
         modelId=settings.BEDROCK_MODEL_ID,
-        body=json.dumps(body),
         contentType="application/json",
         accept="application/json",
+        body=json.dumps(body),
     )
 
     result = json.loads(resp["body"].read())

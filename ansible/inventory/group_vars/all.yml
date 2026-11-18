@@ -8,6 +8,6 @@ app_dir: /opt/cloudops
 app_port: 8000
 app_branch: main
 
-# FastAPI app config — deployed to .env on each server
-api_key: "f1e42b4b3655e07d18b714a8e815980cbd640873b7b96ea376b5b96da9aebb68"
-bedrock_model_id: "anthropic.claude-3-sonnet-20240229-v1:0"
+# FastAPI app config — api_key secret comes from vault.yml (ansible-vault encrypted)
+api_key: "{{ vault_api_key }}"
+bedrock_model_id: "anthropic.claude-3-haiku-20240307-v1:0"

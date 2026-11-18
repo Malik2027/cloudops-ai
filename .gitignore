@@ -6,6 +6,10 @@ keys/
 .env.*
 !.env.example
 
+# Ansible vault secrets (never commit)
+ansible/inventory/group_vars/vault.yml
+~/.vault_pass
+
 # Terraform state and secrets
 **/.terraform/
 *.tfstate

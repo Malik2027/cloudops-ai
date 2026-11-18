@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     ENV: str = "dev"
     AWS_REGION: str = "ap-south-1"
     API_KEY: str = "change-me-before-deploy"
-    BEDROCK_MODEL_ID: str = "anthropic.claude-3-sonnet-20240229-v1:0"
+    BEDROCK_MODEL_ID: str = "anthropic.claude-3-haiku-20240307-v1:0"
 
 
 settings = Settings()
